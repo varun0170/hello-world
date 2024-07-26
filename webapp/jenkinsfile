@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/yankils/hello-world'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'javac HelloWorld.java'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // sh 'java -cp .:junit-4.12.jar org.junit.runner.JUnitCore TestClass'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'jar cf HelloWorld.jar HelloWorld.class'
+        }
+    }
+
+    post {
+        always {
+            echo 'Cleaning up...'
+            cleanWs()
+        }
+    }
+}
